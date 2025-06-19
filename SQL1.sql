@@ -49,10 +49,10 @@ INSERT INTO users(first_name,last_name,birthday,email,tel_number,is_male)
 VALUES( 'Natalia', 'Yakovenko', '1983.10.14', 'yakovenkonatali99@gmail.com', '+380662865139', true);
 
 INSERT INTO users(first_name,last_name,birthday,email,tel_number,is_male)
-VALUES( 'Natalia', 'Yakovenko', '1983.10.14', 'yakovenkonatali9@gmail.com', '+380662865179', true),
-      ( 'Natalia', 'Yakovenko', '1983.10.14', 'yakovenkonatali@gmail.com', '+380666865179', true),
-      ( 'Natalia', 'Yakovenko', '1983.10.14', 'yakovenkonata@gmail.com', '+380662785179', true),
-      ( 'Natalia', 'Yakovenko', '1983.10.14', 'yakovenko@gmail.com', '+380662984179', true);
+VALUES( 'Natalia', 'Yakovenko', '1983.11.11', '1akovenkonatali9@gmail.com', '+380662865172', true),
+      ( 'Ruslana', 'Rovenko', '1984.10.11', '2ykovenkonatali@gmail.com', '+380986865173', true),
+      ( 'Diana', 'Doenko', '1985.05.05', '3yaovenkonata@gmail.com', '+380992785174', true),
+      ( 'Riana', 'Soenko', '1986.03.03', '4yakvenko@gmail.com', '+380672984176', true);
 
 
 
@@ -76,3 +76,96 @@ VALUES('Sumsung', 'X5', 'red', '2020.11.09', 10500.50),
 SELECT CURRENT_DATE;
 SELECT CURRENT_TIME;
 SELECT CURRENT_TIMESTAMP;
+
+-- отримати всю інформацію
+SELECT *
+FROM users;
+
+-- отримати конкретні стовпці
+SELECT first_name,last_name
+FROM users;
+
+-- Призначення псевдонимів
+SELECT first_name AS name, last_name AS surname
+FROM users;
+
+--Конкатинація значень
+SELECT first_name ||' '|| last_name AS Fullname, email
+FROM users;
+
+-- отримати день та місяць народження з повної дати народження
+SELECT first_name ||' '|| last_name AS Fullname, 
+EXTRACT(DAY FROM birthday) AS day, 
+EXTRACT(MONTH FROM birthday) AS MONTH
+FROM users;
+
+--вивести для користувачів їх вік
+SELECT first_name ||' '|| last_name AS Fullname, 
+ EXTRACT(YEAR FROM age(birthday))
+   FROM users;
+
+
+--отримати для кожної пари бренд/модель кількість місяців з їх виробництва 
+SELECT brand ||' '|| model AS Phone,
+EXTRACT(MONTH FROM age(production_date)) AS months_products
+FROM phones;
+
+--отримання різних результатів
+SELECT DISTINCT first_name
+FROM users;
+
+--сортування за зростанням
+SELECT first_name ||' '|| last_name AS Fullname, 
+email, tel_number
+FROM users
+ORDER BY email;
+
+--сортування за спаданням
+SELECT first_name ||' '|| last_name AS Fullname, 
+email, tel_number
+FROM users
+ORDER BY email DESC;
+
+--сортувати за спаданням за декількома параметрами
+SELECT first_name ||' '|| last_name AS Fullname, 
+email, tel_number
+FROM users
+ORDER BY first_name,email;
+
+--сортувати за зростанням перший параметр, за спаданням другий параметрам
+SELECT first_name ||' '|| last_name AS Fullname, 
+email, tel_number
+FROM users
+ORDER BY first_name,email DESC;
+
+--впорядкувати телефони за датою виробництва
+SELECT brand ||' '|| model AS Phone,
+production_date
+FROM phones
+ORDER BY production_date DESC;
+
+--впорядкувати за назвою місяця дати народження users
+SELECT first_name ||' '|| last_name AS Fullname,
+EXTRACT(DAY FROM birthday) AS day, 
+EXTRACT(MONTH FROM birthday) AS MONTH, birthday
+FROM users
+ORDER BY EXTRACT(MONTH FROM birthday);
+
+--впорядкувати за назвою місяця, та днем дати народження users
+SELECT first_name ||' '|| last_name AS Fullname,
+EXTRACT(DAY FROM birthday) AS day, 
+EXTRACT(MONTH FROM birthday) AS MONTH, birthday
+FROM users
+ORDER BY EXTRACT(MONTH FROM birthday), EXTRACT(DAY FROM birthday);
+
+--Пагінація, 3 рядка, після 6 рядка
+SELECT *
+FROM users
+ORDER BY id
+LIMIT 3 OFFSET 6;
+
+--обрати телефон з найменшою ціною
+SELECT *
+FROM phones
+ORDER BY price
+LIMIT 3;
