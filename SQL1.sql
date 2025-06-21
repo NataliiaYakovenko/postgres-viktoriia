@@ -54,6 +54,9 @@ VALUES( 'Natalia', 'Yakovenko', '1983.11.11', '1akovenkonatali9@gmail.com', '+38
       ( 'Diana', 'Doenko', '1985.05.05', '3yaovenkonata@gmail.com', '+380992785174', true),
       ( 'Riana', 'Soenko', '1986.03.03', '4yakvenko@gmail.com', '+380672984176', true);
 
+INSERT INTO users(first_name,last_name,birthday,email,tel_number,is_male)
+VALUES( 'lia', 'Nion', NULL, 'li@gmail.com', '+380972865177', true);     
+
 
 
 -- Task: Описати структуру таблиці для сутності ТЕЛЕФОН (бренд, модель, ціна, колір, дата виробництва)
