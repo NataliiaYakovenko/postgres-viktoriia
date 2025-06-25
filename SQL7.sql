@@ -1,3 +1,8 @@
+
+users <- orders <- phones_to_orders -> phones
+
+-- Створюємо в порядку від головних до залежних
+-- Видаляємо в звоторньому
 CREATE DATABASE phones_sales;
 
 CREATE TABLE users(
@@ -71,9 +76,39 @@ VALUES (1, 6, 1),
        (9, 5, 3),
        (8, 5, 2);
     
+-- Ex: Вивести інформацію про користувачів і їх замовлення
+SELECT *
+FROM orders INNER JOIN users ON orders.user_id=users.id;
 
+-- Task: Вивести інфо про телефони і в якій кількості їх купували
+SELECT *
+FROM phones INNER JOIN phones_to_orderes AS pto ON pto.phone_id=phones.id;
 
+--Вивести скільки яких телефонів купили
+SELECT brand, model, sum(amount) AS total_amount
+FROM phones INNER JOIN phones_to_orderes AS pto ON pto.phone_id=phones.id
+GROUP BY brand, model
+ORDER BY total_amount DESC;
 
+--Вивести кількість замовлень кожного користувача
+SELECT user_id,users.first_name,users.last_name, count(*) AS count
+FROM orders INNER JOIN users ON orders.user_id=users.id
+GROUP BY user_id, users.first_name,users.last_name
+ORDER BY count DESC;     
 
+--Вивести інформацію про сумарну вартість проданих телефонів кожної моделі
+SELECT model, sum(price*amount) AS sum
+FROM phones INNER JOIN phones_to_orderes AS pto ON pto.phone_id=phones.id
+GROUP BY model
+ORDER BY sum DESC;
 
-       
+--Яку сумарну кількість телефонів купили різних брендів
+SELECT brand, sum(amount)
+FROM phones INNER JOIN phones_to_orderes AS pto ON pto.phone_id=phones.id
+GROUP BY brand;
+
+--Яку сумарну кількість телефонів купили різних брендів 2021 року виготовлення
+SELECT brand, sum(amount)
+FROM phones INNER JOIN phones_to_orderes AS pto ON pto.phone_id=phones.id
+WHERE manufactured_year = 2021
+GROUP BY brand;
