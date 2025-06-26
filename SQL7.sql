@@ -112,3 +112,48 @@ SELECT brand, sum(amount)
 FROM phones INNER JOIN phones_to_orderes AS pto ON pto.phone_id=phones.id
 WHERE manufactured_year = 2021
 GROUP BY brand;
+
+--Яку сумарну кількість телефонів купили 2022 року різних брендів 
+SELECT brand, sum(amount)
+FROM phones INNER JOIN phones_to_orderes AS pto ON pto.phone_id = phones.id
+            INNER JOIN orders ON pto.order_id =  orders.id
+WHERE EXTRACT(YEAR FROM created_at)= 2022
+GROUP BY brand;  
+
+--Які телефони купував user з id 2
+SELECT *
+FROM users AS u INNER JOIN orders AS o ON u.id = o.id
+                INNER JOIN phones_to_orderes AS pto ON o.id = pto.order_id 
+                INNER JOIN phones AS p ON p.id = pto.phone_id
+WHERE u.id = 2;
+
+--Виводиться вся ліва частина
+SELECT *
+FROM users AS u LEFT JOIN orders AS o ON u.id = o.id;
+
+--Виводиться вся ліва частина з замовленням NULL
+SELECT *
+FROM users AS u LEFT JOIN orders AS o ON u.id = o.id
+WHERE o.id IS NULL;
+
+--Виводиться вся ліва частина з замовленням NULL, користувачі які не робили замовлення
+SELECT *
+FROM users AS u LEFT JOIN orders AS o ON u.id = o.id
+WHERE o.id IS NOT NULL;
+
+--Виводиться вся права частина
+SELECT *
+FROM users AS u RIGHT JOIN orders AS o ON u.id = o.id;
+
+--створюємо представлення (щоб не повторювати код)
+         -- назва таблиць, яких я обєдную
+CREATE VIEW users_to_phones AS 
+SELECT u.id AS u_id, first_name,last_name, email,tel, o.id AS o_id, created_at, pto.id AS pto_id, amount, p.id AS p_id,brand, model, price,color,manufactured_year
+FROM users AS u INNER JOIN orders AS o ON u.id = o.id
+                INNER JOIN phones_to_orderes AS pto ON o.id = pto.order_id 
+                INNER JOIN phones AS p ON p.id = pto.phone_id;
+
+-- знайти телефони 2 юзера
+SELECT *
+FROM users_to_phones 
+WHERE u_id = 2 ;             
