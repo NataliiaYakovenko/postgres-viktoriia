@@ -96,6 +96,7 @@ WHERE pto.id IS NULL;
 -- SELECT *
 -- FROM phones
 -- WHERE price > min (200,500,1000); -- більше хочаб одного 
+
 --1Відобразити телефони, які дорожче за всі Samsung
 SELECT *
 FROM phones
